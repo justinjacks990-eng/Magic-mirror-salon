@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Magic Mirror — Beauty • Dreadlocks • Professional Services | Kenya</title>
+<meta name="description" content="Magic Mirror (Josh Dreadlocks Guru) — professional beauty and dreadlock services in Kenya. Book your appointment online." />
+
+<!-- ============================================================
+     MAGIC MIRROR — BUSINESS WEBSITE DEMO
+     Owner demo: Josh Dreadlocks Guru / Magic Mirror (Kenya)
+     Single-file build: HTML + CSS + vanilla JS only.
+     To customise: edit the CONFIG block at the top of the
+     <script> section at the bottom of this file.
+============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+/* ==========================================================
+   1. DESIGN TOKENS & RESET
+========================================================== */
+:root{
+  --bg:          #0d0c0a;
+  --bg-soft:     #14120f;
+  --surface:     #1a1713;
+  --surface-2:   #211d17;
+  --line:        rgba(201,162,75,.18);
+  --line-soft:   rgba(255,255,255,.07);
+  --gold:        #c9a24b;
+  --gold-bright: #e4c878;
+  --gold-deep:   #9a7a2e;
+  --cream:       #f3ede0;
+  --muted:       #a89f8d;
+  --danger:      #d96459;
+  --success:     #7fb069;
+  --radius:      14px;
+  --radius-sm:   10px;
+  --shadow:      0 18px 45px rgba(0,0,0,.45);
+  --font-serif:  "Cormorant Garamond", Georgia, serif;
+  --font-sans:   "Jost", "Segoe UI", Arial, sans-serif;
+  --header-h:    72px;
+}
+*,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  background:var(--bg);
+  color:var(--cream);
+  font-family:var(--font-sans);
+  font-weight:300;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+button{ font-family:inherit; cursor:pointer; }
+section{ scroll-margin-top: calc(var(--header-h) + 12px); }
+
+.container{ width:min(1120px, 92%); margin-inline:auto; }
+
+/* ==========================================================
+   2. TYPOGRAPHY HELPERS
+========================================================== */
+.eyebrow{
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-size:.72rem; letter-spacing:.32em; text-transform:uppercase;
+  color:var(--gold); font-weight:500;
+}
+.eyebrow::before{
+  content:""; width:26px; height:1px; background:var(--gold); opacity:.7;
+}
+.section-title{
+  font-family:var(--font-serif);
+  font-weight:600;
+  font-size:clamp(1.9rem, 4.6vw, 2.9rem);
+  line-height:1.15;
+  margin:.7rem 0 .6rem;
+}
+.section-title em{ font-style:italic; color:var(--gold-bright); }
+.section-lead{ color:var(--muted); max-width:56ch; font-size:1.02rem; }
+.section-head{ margin-bottom:2.6rem; }
+
+/* ==========================================================
+   3. BUTTONS
+========================================================== */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
+  padding:.95rem 1.9rem;
+  border-radius:999px;
+  font-size:.85rem; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase;
+  border:1px solid transparent;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease;
+  min-height:48px; /* comfortable tap target on mobile */
+}
+.btn:active{ transform:scale(.97); }
+.btn-gold{
+  background:linear-gradient(180deg, var(--gold-bright), var(--gold));
+  color:#1a1408;
+  box-shadow:0 10px 26px rgba(201,162,75,.28);
+}
+.btn-gold:hover{ transform:translateY(-2px); box-shadow:0 16px 34px rgba(201,162,75,.4); }
+.btn-outline{
+  border-color:var(--line); color:var(--cream); background:rgba(255,255,255,.02);
+}
+.btn-outline:hover{ border-color:var(--gold); color:var(--gold-bright); }
+.btn-ghost{
+  border-color:transparent; color:var(--gold-bright); padding-inline:.4rem;
+}
+.btn-ghost:hover{ color:var(--cream); }
+.btn-block{ width:100%; }
+
+/* ==========================================================
+   4. HEADER / NAVIGATION
+========================================================== */
+.site-header{
+  position:fixed; inset:0 0 auto 0; z-index:100;
+  height:var(--header-h);
+  background:rgba(13,12,10,.86);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+  transition:background .3s ease;
+}
+.nav-wrap{
+  height:100%; display:flex; align-items:center; justify-content:space-between; gap:1rem;
+}
+.brand{ display:flex; flex-direction:column; line-height:1.15; }
+.brand-name{
+  font-family:var(--font-serif); font-weight:700;
+  font-size:1.28rem; letter-spacing:.16em; color:var(--cream);
+}
+.brand-name span{ color:var(--gold); }
+.brand-tag{
+  font-size:.6rem; letter-spacing:.24em; text-transform:uppercase; color:var(--muted);
+}
+.nav-links{ display:flex; align-items:center; gap:1.9rem; list-style:none; }
+.nav-links a{
+  font-size:.8rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--muted); font-weight:400;
+  padding:.4rem 0; position:relative; transition:color .25s;
+}
+.nav-links a::after{
+  content:""; position:absolute; left:0; bottom:0; height:1px; width:0;
+  background:var(--gold); transition:width .3s ease;
+}
+.nav-links a:hover, .nav-links a.active{ color:var(--cream); }
+.nav-links a:hover::after, .nav-links a.active::after{ width:100%; }
+.nav-cta{ margin-left:.6rem; padding:.7rem 1.4rem; min-height:44px; }
+
+.menu-toggle{
+  display:none; flex-direction:column; justify-content:center; gap:6px;
+  width:46px; height:46px; background:none; border:1px solid var(--line-soft);
+  border-radius:var(--radius-sm); padding:11px;
+}
+.menu-toggle span{
+  display:block; height:2px; width:100%; background:var(--cream);
+  transition:transform .3s ease, opacity .3s ease;
+}
+.menu-toggle.open span:nth-child(1){ transform:translateY(8px) rotate(45deg); }
+.menu-toggle.open span:nth-child(2){ opacity:0; }
+.menu-toggle.open span:nth-child(3){ transform:translateY(-8px) rotate(-45deg); }
+
+/* Mobile nav panel */
+.mobile-nav{
+  position:fixed; top:var(--header-h); left:0; right:0; z-index:99;
+  background:rgba(13,12,10,.98);
+  border-bottom:1px solid var(--line);
+  transform:translateY(-115%);
+  transition:transform .38s cubic-bezier(.22,.9,.3,1);
+  padding:1.1rem 5% 1.6rem;
+}
+.mobile-nav.open{ transform:translateY(0); }
+.mobile-nav a{
+  display:block; padding:.85rem .2rem;
+  border-bottom:1px solid var(--line-soft);
+  font-size:.95rem; letter-spacing:.12em; text-transform:uppercase; color:var(--cream);
+}
+.mobile-nav .btn{ margin-top:1.1rem; }
+
+/* ==========================================================
+   5. HERO
+========================================================== */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex; align-items:center;
+  padding:calc(var(--header-h) + 3rem) 0 4.5rem;
+  background:
+    radial-gradient(900px 500px at 82% 12%, rgba(201,162,75,.13), transparent 62%),
+    radial-gradient(700px 480px at 8% 88%, rgba(201,162,75,.07), transparent 60%),
+    var(--bg);
+  overflow:hidden;
+}
+.hero-grid{
+  display:grid; grid-template-columns:1.08fr .92fr; gap:3.4rem; align-items:center;
+}
+.hero h1{
+  font-family:var(--font-serif); font-weight:600;
+  font-size:clamp(2.5rem, 6.4vw, 4.3rem);
+  line-height:1.06; margin:1.1rem 0 1.2rem;
+}
+.hero h1 em{ font-style:italic; color:var(--gold-bright); }
+.hero p.lead{ color:var(--muted); font-size:1.06rem; max-width:46ch; }
+.hero-actions{ display:flex; flex-wrap:wrap; gap:.9rem; margin-top:2rem; }
+.hero-note{
+  margin-top:1.6rem; font-size:.82rem; color:var(--muted);
+  display:flex; align-items:center; gap:.55rem;
+}
+.hero-note svg{ flex:none; }
+
+/* Hero visual — framed placeholder, ready for real photos */
+.hero-visual{ position:relative; }
+.hero-frame{
+  position:relative; aspect-ratio:4/5; border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:
+    linear-gradient(160deg, rgba(201,162,75,.12), transparent 45%),
+    var(--surface);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.hero-frame::before{
+  content:""; position:absolute; inset:14px;
+  border:1px solid rgba(201,162,75,.28); border-radius:calc(var(--radius) - 8px);
+  pointer-events:none;
+}
+.hero-frame img{
+  width:100%; height:100%; object-fit:cover; opacity:.9;
+}
+.hero-frame .frame-label{
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:.8rem; text-align:center; padding:2rem;
+  color:var(--muted);
+}
+.frame-label .fl-icon{ color:var(--gold); }
+.frame-label .fl-title{
+  font-family:var(--font-serif); font-size:1.5rem; color:var(--cream); font-weight:600;
+}
+.frame-label .fl-text{ font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; }
+.hero-badge{
+  position:absolute; right:-14px; bottom:26px;
+  background:var(--surface-2); border:1px solid var(--line);
+  border-radius:var(--radius-sm); padding:.9rem 1.2rem;
+  box-shadow:var(--shadow); max-width:220px;
+}
+.hero-badge strong{ display:block; font-family:var(--font-serif); color:var(--gold-bright); font-size:1.05rem; font-weight:600; }
+.hero-badge span{ font-size:.75rem; color:var(--muted); }
+.hero-glow{
+  position:absolute; width:340px; height:340px; border-radius:50%;
+  background:radial-gradient(circle, rgba(201,162,75,.16), transparent 68%);
+  top:-60px; right:-80px; pointer-events:none;
+}
+
+/* Scroll hint */
+.scroll-hint{
+  position:absolute; left:50%; bottom:1.4rem; transform:translateX(-50%);
+  color:var(--muted); font-size:.68rem; letter-spacing:.3em; text-transform:uppercase;
+  display:flex; flex-direction:column; align-items:center; gap:.5rem;
+}
+.scroll-hint::after{
+  content:""; width:1px; height:34px;
+  background:linear-gradient(180deg, var(--gold), transparent);
+  animation:drip 2.2s ease infinite;
+}
+@keyframes drip{ 0%{transform:scaleY(0);transform-origin:top} 55%{transform:scaleY(1);transform-origin:top} 56%{transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
+
+/* ==========================================================
+   6. INTRO / FEATURE CARDS
+========================================================== */
+.section{ padding:5.4rem 0; }
+.features-grid{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:1.1rem;
+}
+.feature-card{
+  background:var(--surface); border:1px solid var(--line-soft);
+  border-radius:var(--radius); padding:1.8rem 1.5rem;
+  transition:transform .3s ease, border-color .3s ease;
+}
+.feature-card:hover{ transform:translateY(-5px); border-color:var(--line); }
+.feature-icon{
+  width:48px; height:48px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(201,162,75,.12); color:var(--gold-bright);
+  margin-bottom:1.1rem;
+}
+.feature-card h3{ font-family:var(--font-serif); font-size:1.25rem; font-weight:600; margin-bottom:.45rem; }
+.feature-card p{ color:var(--muted); font-size:.92rem; }
+
+/* ==========================================================
+   7. SERVICES
+========================================================== */
+#services{ background:var(--bg-soft); border-block:1px solid var(--line-soft); }
+.services-head{ text-align:center; display:flex; flex-direction:column; align-items:center; }
+.services-head .section-lead{ margin-inline:auto; }
+
+.service-category{ margin-top:3.2rem; }
+.service-category-title{
+  display:flex; align-items:center; gap:1rem;
+  font-family:var(--font-serif); font-size:1.5rem; font-weight:600; color:var(--gold-bright);
+  margin-bottom:1.3rem;
+}
+.service-category-title::after{ content:""; flex:1; height:1px; background:var(--line); }
+
+.services-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.1rem; }
+.service-card{
+  background:var(--surface); border:1px solid var(--line-soft);
+  border-radius:var(--radius); padding:1.6rem 1.4rem;
+  display:flex; flex-direction:column;
+  transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+.service-card:hover{ transform:translateY(-5px); border-color:var(--line); box-shadow:var(--shadow); }
+.service-card h4{ font-family:var(--font-serif); font-size:1.22rem; font-weight:600; margin-bottom:.4rem; }
+.service-card p{ color:var(--muted); font-size:.9rem; flex:1; }
+.service-price{
+  margin:.9rem 0 1rem; font-size:.8rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--gold-bright);
+}
+.service-card .btn{ align-self:flex-start; padding:.62rem 1.3rem; min-height:42px; font-size:.76rem; }
+
+/* ==========================================================
+   8. APPOINTMENT BOOKING
+========================================================== */
+.booking-layout{
+  display:grid; grid-template-columns:.9fr 1.1fr; gap:3rem; align-items:start;
+}
+.booking-side{ position:sticky; top:calc(var(--header-h) + 2rem); }
+.booking-side .panel{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius); padding:1.8rem; margin-top:1.6rem;
+}
+.booking-side .panel h4{ font-family:var(--font-serif); font-size:1.2rem; font-weight:600; margin-bottom:.6rem; }
+.booking-side .panel p{ color:var(--muted); font-size:.9rem; }
+.panel-list{ list-style:none; margin-top:1rem; display:grid; gap:.7rem; }
+.panel-list li{ display:flex; gap:.7rem; align-items:flex-start; color:var(--muted); font-size:.9rem; }
+.panel-list svg{ flex:none; margin-top:.2rem; color:var(--gold); }
+
+.booking-form{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius); padding:2rem;
+  box-shadow:var(--shadow);
+}
+.booking-form h3{ font-family:var(--font-serif); font-size:1.6rem; font-weight:600; margin-bottom:.3rem; }
+.booking-form .form-sub{ color:var(--muted); font-size:.9rem; margin-bottom:1.6rem; }
+.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.field{ margin-bottom:1.1rem; }
+.field label{
+  display:block; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:.45rem; font-weight:500;
+}
+.field label .req{ color:var(--gold-bright); }
+.field input, .field select, .field textarea{
+  width:100%; background:var(--bg-soft); color:var(--cream);
+  border:1px solid var(--line-soft); border-radius:var(--radius-sm);
+  padding:.85rem 1rem; font-family:inherit; font-size:.95rem; font-weight:300;
+  transition:border-color .25s ease, box-shadow .25s ease;
+  appearance:none; -webkit-appearance:none;
+}
+.field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23c9a24b' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 1rem center; padding-right:2.6rem;
+}
+.field textarea{ resize:vertical; min-height:96px; }
+.field input:focus, .field select:focus, .field textarea:focus{
+  outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,162,75,.14);
+}
+.field.error input, .field.error select, .field.error textarea{ border-color:var(--danger); }
+.field .err-msg{ display:none; color:var(--danger); font-size:.78rem; margin-top:.35rem; }
+.field.error .err-msg{ display:block; }
+.form-feedback{
+  display:none; margin-top:1rem; padding:.9rem 1.1rem; border-radius:var(--radius-sm);
+  font-size:.9rem;
+}
+.form-feedback.show{ display:block; }
+.form-feedback.ok{ background:rgba(127,176,105,.12); border:1px solid rgba(127,176,105,.4); color:#b9d9a8; }
+.form-feedback.bad{ background:rgba(217,100,89,.1); border:1px solid rgba(217,100,89,.4); color:#e8a9a2; }
+.form-note{ margin-top:1rem; font-size:.78rem; color:var(--muted); text-align:center; }
+
+/* ==========================================================
+   9. HOW IT WORKS
+========================================================== */
+#how{ background:var(--bg-soft); border-block:1px solid var(--line-soft); }
+.steps-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.1rem; counter-reset:step; }
+.step-card{
+  position:relative; background:var(--surface); border:1px solid var(--line-soft);
+  border-radius:var(--radius); padding:2.2rem 1.7rem 1.8rem; overflow:hidden;
+}
+.step-card::before{
+  counter-increment:step; content:"0" counter(step);
+  position:absolute; top:.6rem; right:1.1rem;
+  font-family:var(--font-serif); font-size:3.4rem; font-weight:700;
+  color:rgba(201,162,75,.14); line-height:1;
+}
+.step-card h4{ font-family:var(--font-serif); font-size:1.3rem; font-weight:600; margin-bottom:.5rem; }
+.step-card p{ color:var(--muted); font-size:.92rem; }
+
+/* ==========================================================
+   10. RECRUITMENT
+========================================================== */
+.demo-tag{
+  display:inline-block; font-size:.66rem; letter-spacing:.22em; text-transform:uppercase;
+  border:1px solid var(--line); color:var(--gold-bright);
+  border-radius:999px; padding:.32rem .85rem; margin-bottom:.9rem;
+}
+.jobs-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.1rem; margin-top:2.6rem; }
+.job-card{
+  background:var(--surface); border:1px solid var(--line-soft);
+  border-radius:var(--radius); padding:1.7rem 1.5rem;
+  display:flex; flex-direction:column;
+  transition:transform .3s ease, border-color .3s ease;
+}
+.job-card:hover{ transform:translateY(-5px); border-color:var(--line); }
+.job-card h4{ font-family:var(--font-serif); font-size:1.28rem; font-weight:600; margin-bottom:.45rem; }
+.job-card p{ color:var(--muted); font-size:.9rem; flex:1; }
+.job-card .btn{ align-self:flex-start; margin-top:1.2rem; padding:.6rem 1.25rem; min-height:42px; font-size:.76rem; }
+.recruit-banner{
+  margin-top:2.6rem; background:linear-gradient(120deg, rgba(201,162,75,.12), rgba(201,162,75,.03));
+  border:1px solid var(--line); border-radius:var(--radius);
+  padding:2.2rem; display:flex; flex-wrap:wrap; gap:1.4rem;
+  align-items:center; justify-content:space-between;
+}
+.recruit-banner h3{ font-family:var(--font-serif); font-size:1.7rem; font-weight:600; }
+.recruit-banner p{ color:var(--muted); max-width:52ch; margin-top:.3rem; }
+
+/* ==========================================================
+   11. ABOUT
+========================================================== */
+#about{ background:var(--bg-soft); border-block:1px solid var(--line-soft); }
+.about-layout{ display:grid; grid-template-columns:.85fr 1.15fr; gap:3.2rem; align-items:center; }
+.about-visual{ position:relative; }
+.about-visual .hero-frame{ aspect-ratio:1/1.05; }
+.about-list{ list-style:none; margin-top:1.6rem; display:grid; gap:1.1rem; }
+.about-list li{ display:flex; gap:1rem; align-items:flex-start; }
+.about-list .dot{
+  flex:none; width:34px; height:34px; border-radius:50%;
+  border:1px solid var(--line); color:var(--gold-bright);
+  display:flex; align-items:center; justify-content:center;
+}
+.about-list strong{ display:block; font-family:var(--font-serif); font-size:1.12rem; font-weight:600; }
+.about-list span{ color:var(--muted); font-size:.92rem; }
+
+/* ==========================================================
+   12. GALLERY
+========================================================== */
+.gallery-grid{
+  display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:210px; gap:1rem;
+}
+.gallery-item{
+  position:relative; border-radius:var(--radius); overflow:hidden; cursor:pointer;
+  border:1px solid var(--line-soft); background:var(--surface);
+  transition:transform .3s ease, border-color .3s ease;
+}
+.gallery-item:nth-child(1){ grid-column:span 2; grid-row:span 2; }
+.gallery-item:nth-child(4){ grid-column:span 2; }
+.gallery-item:hover{ transform:translateY(-4px); border-color:var(--line); }
+.gallery-item img{ width:100%; height:100%; object-fit:cover; transition:transform .6s ease; }
+.gallery-item:hover img{ transform:scale(1.05); }
+.gallery-placeholder{
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:.7rem; text-align:center; padding:1.2rem;
+  background:
+    linear-gradient(150deg, rgba(201,162,75,.09), transparent 55%),
+    var(--surface);
+  color:var(--muted);
+}
+.gallery-placeholder svg{ color:var(--gold); }
+.gallery-placeholder .gp-label{
+  font-family:var(--font-serif); font-size:1.15rem; color:var(--cream); font-weight:600;
+}
+.gallery-placeholder .gp-sub{ font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; }
+.gallery-caption{
+  position:absolute; left:0; right:0; bottom:0; padding:1.6rem 1.1rem .9rem;
+  background:linear-gradient(180deg, transparent, rgba(10,9,7,.9));
+  font-size:.8rem; letter-spacing:.12em; text-transform:uppercase; color:var(--cream);
+  opacity:0; transform:translateY(8px); transition:.35s ease;
+}
+.gallery-item:hover .gallery-caption{ opacity:1; transform:translateY(0); }
+
+/* Lightbox */
+.lightbox{
+  position:fixed; inset:0; z-index:200; background:rgba(8,7,5,.94);
+  display:none; align-items:center; justify-content:center; padding:1.4rem;
+  backdrop-filter:blur(6px);
+}
+.lightbox.open{ display:flex; animation:fadeIn .25s ease; }
+@keyframes fadeIn{ from{opacity:0} to{opacity:1} }
+.lightbox-inner{ max-width:min(880px, 96vw); width:100%; }
+.lightbox-frame{
+  border-radius:var(--radius); overflow:hidden; border:1px solid var(--line);
+  background:var(--surface); aspect-ratio:4/3;
+  display:flex; align-items:center; justify-content:center; position:relative;
+}
+.lightbox-frame img{ width:100%; height:100%; object-fit:cover; }
+.lightbox-placeholder{
+  position:absolute; inset:0; display:flex; flex-direction:column; gap:.8rem;
+  align-items:center; justify-content:center; color:var(--muted); text-align:center; padding:2rem;
+}
+.lightbox-placeholder svg{ color:var(--gold); }
+.lightbox-caption{
+  margin-top:1rem; text-align:center;
+  font-family:var(--font-serif); font-size:1.2rem; color:var(--gold-bright);
+}
+.lightbox-close{
+  position:absolute; top:1.1rem; right:1.1rem;
+  width:46px; height:46px; border-radius:50%;
+  background:var(--surface-2); border:1px solid var(--line); color:var(--cream);
+  font-size:1.15rem; display:flex; align-items:center; justify-content:center;
+  transition:.25s;
+}
+.lightbox-close:hover{ border-color:var(--gold); color:var(--gold-bright); transform:rotate(90deg); }
+
+/* ==========================================================
+   13. CONTACT
+========================================================== */
+#contact{ background:var(--bg-soft); border-block:1px solid var(--line-soft); }
+.contact-layout{ display:grid; grid-template-columns:1fr 1fr; gap:2.4rem; }
+.contact-card{
+  background:var(--surface); border:1px solid var(--line-soft);
+  border-radius:var(--radius); padding:2rem;
+}
+.contact-rows{ display:grid; gap:1.2rem; margin-top:1.6rem; }
+.contact-row{ display:flex; gap:1rem; align-items:flex-start; }
+.contact-row .ci{
+  flex:none; width:42px; height:42px; border-radius:11px;
+  background:rgba(201,162,75,.12); color:var(--gold-bright);
+  display:flex; align-items:center; justify-content:center;
+}
+.contact-row strong{ display:block; font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); font-weight:500; margin-bottom:.15rem; }
+.contact-row a, .contact-row span.val{ color:var(--cream); font-size:.98rem; }
+.contact-row a:hover{ color:var(--gold-bright); }
+.contact-actions{ display:flex; flex-wrap:wrap; gap:.8rem; margin-top:1.8rem; }
+.map-placeholder{
+  margin-top:1.4rem; border:1px dashed var(--line); border-radius:var(--radius-sm);
+  padding:1.2rem; text-align:center; color:var(--muted); font-size:.85rem;
+}
+.socials{ display:flex; gap:.7rem; margin-top:1.6rem; }
+.socials a{
+  width:44px; height:44px; border-radius:50%;
+  border:1px solid var(--line-soft); display:flex; align-items:center; justify-content:center;
+  color:var(--muted); transition:.25s;
+}
+.socials a:hover{ border-color:var(--gold); color:var(--gold-bright); transform:translateY(-3px); }
+
+/* ==========================================================
+   14. FOOTER
+========================================================== */
+.site-footer{ background:#0a0908; border-top:1px solid var(--line-soft); padding:3.6rem 0 1.6rem; }
+.footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:2.4rem; }
+.footer-grid h5{
+  font-size:.72rem; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--gold); font-weight:500; margin-bottom:1.1rem;
+}
+.footer-grid ul{ list-style:none; display:grid; gap:.6rem; }
+.footer-grid ul a{ color:var(--muted); font-size:.92rem; transition:color .25s; }
+.footer-grid ul a:hover{ color:var(--cream); }
+.footer-brand p{ color:var(--muted); font-size:.9rem; margin-top:.9rem; max-width:34ch; }
+.footer-bottom{
+  margin-top:2.8rem; padding-top:1.4rem; border-top:1px solid var(--line-soft);
+  display:flex; flex-wrap:wrap; gap:.8rem; justify-content:space-between;
+  color:var(--muted); font-size:.8rem;
+}
+
+/* ==========================================================
+   15. FLOATING WHATSAPP BUTTON
+========================================================== */
+.wa-float{
+  position:fixed; right:1.1rem; bottom:1.1rem; z-index:90;
+  width:58px; height:58px; border-radius:50%;
+  background:#1fba57;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 12px 30px rgba(31,186,87,.4);
+  transition:transform .25s ease;
+}
+.wa-float:hover{ transform:translateY(-4px) scale(1.05); }
+.wa-float::before{
+  content:""; position:absolute; inset:-6px; border-radius:50%;
+  border:2px solid rgba(31,186,87,.5); animation:pulse 2.4s ease infinite;
+}
+@keyframes pulse{ 0%{transform:scale(.85);opacity:1} 100%{transform:scale(1.35);opacity:0} }
+
+/* ==========================================================
+   16. CONFIRMATION MODAL (before WhatsApp redirect)
+========================================================== */
+.modal-overlay{
+  position:fixed; inset:0; z-index:210; background:rgba(8,7,5,.9);
+  display:none; align-items:center; justify-content:center; padding:1.2rem;
+  backdrop-filter:blur(6px);
+}
+.modal-overlay.open{ display:flex; animation:fadeIn .25s ease; }
+.modal{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius); padding:2rem; max-width:460px; width:100%;
+  box-shadow:var(--shadow);
+}
+.modal h3{ font-family:var(--font-serif); font-size:1.5rem; font-weight:600; margin-bottom:.4rem; }
+.modal .modal-sub{ color:var(--muted); font-size:.9rem; margin-bottom:1.2rem; }
+.modal-summary{
+  background:var(--bg-soft); border:1px solid var(--line-soft);
+  border-radius:var(--radius-sm); padding:1rem 1.2rem; margin-bottom:1.4rem;
+  font-size:.9rem; display:grid; gap:.4rem;
+}
+.modal-summary div{ display:flex; justify-content:space-between; gap:1rem; }
+.modal-summary span{ color:var(--muted); }
+.modal-actions{ display:flex; flex-wrap:wrap; gap:.8rem; }
+.modal-actions .btn{ flex:1; min-width:150px; }
+
+/* ==========================================================
+   17. REVEAL ON SCROLL
+========================================================== */
+.reveal{ opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.visible{ opacity:1; transform:none; }
+
+/* ==========================================================
+   18. RESPONSIVE — TABLET
+========================================================== */
+@media (max-width: 960px){
+  .hero-grid{ grid-template-columns:1fr; gap:2.6rem; }
+  .hero-visual{ max-width:480px; margin-inline:auto; width:100%; }
+  .features-grid{ grid-template-columns:repeat(2,1fr); }
+  .services-grid, .jobs-grid{ grid-template-columns:repeat(2,1fr); }
+  .steps-grid{ grid-template-columns:1fr; }
+  .booking-layout{ grid-template-columns:1fr; }
+  .booking-side{ position:static; }
+  .about-layout{ grid-template-columns:1fr; }
+  .about-visual{ max-width:440px; margin-inline:auto; width:100%; }
+  .gallery-grid{ grid-template-columns:repeat(2,1fr); grid-auto-rows:190px; }
+  .contact-layout{ grid-template-columns:1fr; }
+  .footer-grid{ grid-template-columns:1fr 1fr; }
+  .nav-links{ display:none; }
+  .menu-toggle{ display:flex; }
+}
+
+/* ==========================================================
+   19. RESPONSIVE — MOBILE
+========================================================== */
+@media (max-width: 600px){
+  :root{ --header-h:64px; }
+  .section{ padding:4rem 0; }
+  .hero{ padding-bottom:5.5rem; }
+  .hero-actions .btn{ width:100%; }
+  .hero-badge{ right:8px; bottom:14px; padding:.7rem .95rem; max-width:180px; }
+  .features-grid, .services-grid, .jobs-grid, .form-row{ grid-template-columns:1fr; }
+  .gallery-grid{ grid-template-columns:1fr 1fr; grid-auto-rows:150px; gap:.7rem; }
+  .gallery-item:nth-child(1){ grid-column:span 2; }
+  .gallery-item:nth-child(4){ grid-column:span 2; }
+  .booking-form{ padding:1.5rem; }
+  .recruit-banner{ padding:1.6rem; }
+  .footer-grid{ grid-template-columns:1fr; gap:1.8rem; }
+  .wa-float{ width:54px; height:54px; right:.9rem; bottom:.9rem; }
+  .scroll-hint{ display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a href="#home" class="brand" aria-label="Magic Mirror — Home">
+      <span class="brand-name">MAGIC <span>MIRROR</span></span>
+      <span class="brand-tag">Beauty • Dreadlocks • Professional Services</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#appointments">Appointments</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#recruitment">Recruitment</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#appointments" class="btn btn-gold nav-cta">Book Appointment</a></li>
+      </ul>
+    </nav>
+
+    <!-- Mobile hamburger -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile nav panel -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <a href="#home">Home</a>
+  <a href="#services">Services</a>
+  <a href="#appointments">Appointments</a>
+  <a href="#about">About</a>
+  <a href="#recruitment">Recruitment</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#contact">Contact</a>
+  <a href="#appointments" class="btn btn-gold btn-block">Book Appointment</a>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">Josh Dreadlocks Guru — Kenya</span>
+      <h1>Your Beauty.<br/>Your Style.<br/><em>Your Experience.</em></h1>
+      <p class="lead">Professional beauty and dreadlock services designed around your style, convenience and confidence.</p>
+      <div class="hero-actions">
+        <a href="#appointments" class="btn btn-gold">Book an Appointment</a>
+        <a href="#" class="btn btn-outline" id="heroWhatsApp">Chat on WhatsApp</a>
+      </div>
+      <p class="hero-note">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        Appointment requests answered personally on WhatsApp.
+      </p>
+    </div>
+
+    <!-- HERO VISUAL: replace the .frame-label block below with a real
+         business photo later, e.g. <img src="images/hero.jpg" alt="..."> -->
+    <div class="hero-visual">
+      <div class="hero-glow"></div>
+      <div class="hero-frame">
+        <div class="frame-label">
+          <svg class="fl-icon" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.4"/></svg>
+          <span class="fl-title">Your Best Work Here</span>
+          <span class="fl-text">Hero photo — salon / client / styling</span>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <strong>Book in Under a Minute</strong>
+        <span>Choose a service, pick a time, send your request.</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- ================= BUSINESS INTRO ================= -->
+<section class="section" id="intro">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Welcome to Magic Mirror</span>
+      <h2 class="section-title">More Than Beauty. <em>It’s an Experience.</em></h2>
+      <p class="section-lead">Magic Mirror blends professional beauty and dreadlock services with a smooth, convenient experience — from your first message to your final look.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.4 7.2 16.9l.9-5.4L4.2 7.7l5.4-.8L12 2z"/></svg></div>
+        <h3>Professional Service</h3>
+        <p>Every appointment is handled with care, attention to detail and respect for your time.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18"/></svg></div>
+        <h3>Easy Appointments</h3>
+        <p>Request your preferred date and time online — no long phone calls, no back-and-forth.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg></div>
+        <h3>Personalised Experience</h3>
+        <p>Your style, your preferences, your schedule — services shaped around you.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg></div>
+        <h3>Trusted Team</h3>
+        <p>A friendly, skilled team you can rely on for consistent, quality results.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="services-head section-head reveal">
+      <span class="eyebrow">What We Do</span>
+      <h2 class="section-title">Our <em>Services</em></h2>
+      <p class="section-lead">From expert dreadlock care to complete beauty services — choose what you need and book it in one tap.</p>
+    </div>
+
+    <!-- Category: Dreadlocks -->
+    <div class="service-category reveal">
+      <h3 class="service-category-title">Dreadlocks</h3>
+      <div class="services-grid" id="dreadlocksGrid"><!-- populated by JS --></div>
+    </div>
+
+    <!-- Category: Beauty -->
+    <div class="service-category reveal">
+      <h3 class="service-category-title">Beauty</h3>
+      <div class="services-grid" id="beautyGrid"><!-- populated by JS --></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= APPOINTMENTS ================= -->
+<section class="section" id="appointments">
+  <div class="container booking-layout">
+    <div class="booking-side reveal">
+      <span class="eyebrow">Book Online</span>
+      <h2 class="section-title">Request Your <em>Appointment</em></h2>
+      <p class="section-lead">Fill in your details below. Your request opens directly in WhatsApp — we confirm your slot personally.</p>
+      <div class="panel">
+        <h4>How requests work</h4>
+        <p>This is an appointment <strong>request</strong> system — your booking is confirmed once we reply on WhatsApp.</p>
+        <ul class="panel-list">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Send your preferred date &amp; time</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> We confirm availability on WhatsApp</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> No payment needed to request</li>
+        </ul>
+      </div>
+    </div>
+
+    <form class="booking-form reveal" id="bookingForm" novalidate>
+      <h3>Appointment Request</h3>
+      <p class="form-sub">Fields marked <span style="color:var(--gold-bright)">*</span> are required.</p>
+
+      <div class="field" data-field="name">
+        <label for="bkName">Full Name <span class="req">*</span></label>
+        <input type="text" id="bkName" name="name" placeholder="e.g. John Mwangi" autocomplete="name" />
+        <span class="err-msg">Please enter your full name.</span>
+      </div>
+
+      <div class="field" data-field="phone">
+        <label for="bkPhone">Phone / WhatsApp Number <span class="req">*</span></label>
+        <input type="tel" id="bkPhone" name="phone" placeholder="e.g. 0712 345 678" autocomplete="tel" />
+        <span class="err-msg">Please enter a valid phone number (at least 9 digits).</span>
+      </div>
+
+      <div class="field" data-field="service">
+        <label for="bkService">Select Service <span class="req">*</span></label>
+        <select id="bkService" name="service">
+          <option value="">— Choose a service —</option>
+          <!-- options populated by JS -->
+        </select>
+        <span class="err-msg">Please choose a service.</span>
+      </div>
+
+      <div class="form-row">
+        <div class="field" data-field="date">
+          <label for="bkDate">Preferred Date <span class="req">*</span></label>
+          <input type="date" id="bkDate" name="date" />
+          <span class="err-msg">Please pick a date (today or later).</span>
+        </div>
+        <div class="field" data-field="time">
+          <label for="bkTime">Preferred Time <span class="req">*</span></label>
+          <input type="time" id="bkTime" name="time" />
+          <span class="err-msg">Please pick a time.</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="bkMessage">Additional Message <span style="color:var(--muted);text-transform:none;letter-spacing:0">(optional)</span></label>
+        <textarea id="bkMessage" name="message" placeholder="Anything we should know? Style reference, urgency, questions…"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-gold btn-block">Request Appointment</button>
+      <div class="form-feedback" id="formFeedback" role="status"></div>
+      <p class="form-note">You’ll review your request before WhatsApp opens. Nothing is sent automatically.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ================= WHY BOOK ONLINE ================= -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Simple &amp; Fast</span>
+      <h2 class="section-title">Skip the <em>Back-and-Forth.</em></h2>
+      <p class="section-lead">Choose your service, preferred date and time, then send your request directly to the business — all in three steps.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <h4>Choose Your Service</h4>
+        <p>Browse dreadlock and beauty services and tap BOOK on the one you want. It’s selected for you automatically.</p>
+      </div>
+      <div class="step-card reveal">
+        <h4>Select Your Preferred Time</h4>
+        <p>Pick the date and time that suits your schedule — mornings, afternoons or evenings.</p>
+      </div>
+      <div class="step-card reveal">
+        <h4>Send Your Request</h4>
+        <p>One tap opens WhatsApp with everything pre-filled. We reply to confirm your appointment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RECRUITMENT ================= -->
+<section class="section" id="recruitment">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Careers</span>
+      <h2 class="section-title">Join <em>Our Team</em></h2>
+      <p class="section-lead">Magic Mirror can use this website to advertise opportunities and receive applications directly — all through WhatsApp.</p>
+    </div>
+
+    <!-- DEMO NOTICE: these roles are EXAMPLES for website demonstration only.
+         They do NOT represent current vacancies. -->
+    <div class="jobs-grid" id="jobsGrid"><!-- populated by JS --></div>
+
+    <div class="recruit-banner reveal">
+      <div>
+        <h3>Interested in joining us?</h3>
+        <p>Send us a message and tell us about yourself. When real positions open, we’ll reach out through the contact details you share.</p>
+      </div>
+      <button class="btn btn-gold" id="recruitWhatsApp">Apply / Enquire on WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="section" id="about">
+  <div class="container about-layout">
+    <!-- ABOUT VISUAL: replace with a real team/salon photo later -->
+    <div class="about-visual reveal">
+      <div class="hero-frame">
+        <div class="frame-label">
+          <svg class="fl-icon" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span class="fl-title">Team / Salon Photo</span>
+          <span class="fl-text">About image — Josh &amp; the team</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <span class="eyebrow">About Magic Mirror</span>
+      <h2 class="section-title">Beauty, Done <em>Properly.</em></h2>
+
+      <!-- ====================================================
+           ABOUT CONTENT — PLACEHOLDER TEXT
+           Replace the paragraphs below with Josh's real story:
+           business history, location(s), specialities, etc.
+      ===================================================== -->
+      <p class="section-lead" style="margin-top:.6rem">Magic Mirror, led by Josh Dreadlocks Guru, is a beauty and professional services business built around one idea: looking good should feel effortless. We serve clients who value quality work, honest communication and a comfortable, welcoming experience.</p>
+
+      <ul class="about-list">
+        <li>
+          <span class="dot"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg></span>
+          <div><strong>Who we are</strong><span>A client-focused beauty business offering dreadlock care and a growing range of professional services. <!-- Insert: real business background --></span></div>
+        </li>
+        <li>
+          <span class="dot"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg></span>
+          <div><strong>What we offer</strong><span>Dreadlock retouching, reties, styling and maintenance, plus nails, hair and beauty treatments. <!-- Insert: full real service list --></span></div>
+        </li>
+        <li>
+          <span class="dot"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg></span>
+          <div><strong>Our approach</strong><span>We listen first, then deliver — every style starts with understanding what you want and what suits you.</span></div>
+        </li>
+        <li>
+          <span class="dot"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg></span>
+          <div><strong>Our commitment</strong><span>Fair pricing, clear communication and a service experience you’ll want to come back to. <!-- Insert: real guarantees/policies --></span></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALLERY ================= -->
+<section class="section" id="gallery">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Our Work</span>
+      <h2 class="section-title">The <em>Gallery</em></h2>
+      <p class="section-lead">A look at the Magic Mirror experience. Placeholders below — real business photos can be dropped in anytime.</p>
+    </div>
+
+    <!-- GALLERY ITEMS: replace each .gallery-placeholder with
+         <img src="images/photo1.jpg" alt="Description"> later.
+         Titles are set in the JS GALLERY data array. -->
+    <div class="gallery-grid" id="galleryGrid"><!-- populated by JS --></div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Get In Touch</span>
+      <h2 class="section-title">Contact <em>Us</em></h2>
+      <p class="section-lead">Questions, bookings or enquiries — reach us on WhatsApp for the fastest response.</p>
+    </div>
+
+    <div class="contact-layout">
+      <div class="contact-card reveal">
+        <!-- ====================================================
+             CONTACT DETAILS — ALL PLACEHOLDERS
+             Update the CONFIG block in the JavaScript below and
+             the hard-coded values here to the real business info.
+        ===================================================== -->
+        <h3 style="font-family:var(--font-serif);font-size:1.5rem;font-weight:600">Visit or Message Us</h3>
+        <div class="contact-rows">
+          <div class="contact-row">
+            <span class="ci"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.13.96.36 1.9.7 2.8a2 2 0 01-.45 2.1L8.1 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0122 16.9z"/></svg></span>
+            <div><strong>Business Phone</strong><a href="#" id="contactPhone">+254 7XX XXX XXX <!-- Insert real phone --></a></div>
+          </div>
+          <div class="contact-row">
+            <span class="ci"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.4 8.4 0 01-8.4 8.4c-1.5 0-2.9-.4-4.1-1L3 20l1.1-5.5A8.4 8.4 0 1121 11.5z"/></svg></span>
+            <div><strong>WhatsApp</strong><a href="#" id="contactWhatsApp">Chat with us instantly</a></div>
+          </div>
+          <div class="contact-row">
+            <span class="ci"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg></span>
+            <div><strong>Email</strong><a href="#" id="contactEmail">hello@magicmirror.co.ke <!-- Insert real email --></a></div>
+          </div>
+          <div class="contact-row">
+            <span class="ci"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+            <div><strong>Location</strong><span class="val" id="contactLocation">Nairobi, Kenya <!-- Insert: exact estate / building / street --></span></div>
+          </div>
+          <div class="contact-row">
+            <span class="ci"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+            <div><strong>Opening Hours</strong><span class="val" id="contactHours">Mon–Sat: 8:00 AM – 7:00 PM <!-- Insert real hours --></span></div>
+          </div>
+        </div>
+
+        <div class="contact-actions">
+          <button class="btn btn-gold" id="contactWhatsAppBtn">WhatsApp Us</button>
+          <a href="#appointments" class="btn btn-outline">Book an Appointment</a>
+        </div>
+      </div>
+
+      <div class="contact-card reveal">
+        <h3 style="font-family:var(--font-serif);font-size:1.5rem;font-weight:600">Follow the Journey</h3>
+        <p style="color:var(--muted);font-size:.92rem;margin-top:.5rem">See our latest styles, behind-the-scenes work and client transformations. <!-- Insert real social handles --></p>
+
+        <div class="socials">
+          <!-- Replace "#" with real profile links -->
+          <a href="#" aria-label="Instagram"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 12a4 4 0 104 4V4c.6 2.4 2.4 4.2 5 4.6"/></svg></a>
+          <a href="#" aria-label="X / Twitter"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4l16 16M20 4L4 20"/></svg></a>
+        </div>
+
+        <!-- MAP PLACEHOLDER: embed a real Google Map iframe here later -->
+        <div class="map-placeholder">
+          Map placeholder — a Google Maps embed of the exact business location will be inserted here.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="brand-name">MAGIC <span style="color:var(--gold)">MIRROR</span></span>
+        <p>Beauty • Dreadlocks • Professional Services. Your beauty, your style, your experience.</p>
+      </div>
+      <div>
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#appointments">Appointments</a></li>
+          <li><a href="#recruitment">Recruitment</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Get In Touch</h5>
+        <ul>
+          <li><a href="#" id="footerWhatsApp">WhatsApp Us</a></li>
+          <li><a href="#appointments">Book an Appointment</a></li>
+          <li><a href="mailto:hello@magicmirror.co.ke" id="footerEmail">hello@magicmirror.co.ke</a></li>
+          <li><a href="#contact">Location &amp; Hours</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Magic Mirror — Josh Dreadlocks Guru. All rights reserved.</span>
+      <span>Website demo — business details shown are placeholders.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= FLOATING WHATSAPP ================= -->
+<button class="wa-float" id="waFloat" aria-label="Chat on WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a9.9 9.9 0 00-8.6 14.9L2 22l5.3-1.4A10 10 0 1012 2zm5.4 14.1c-.23.65-1.34 1.24-1.87 1.28-.5.05-1.13.08-1.82-.11a16 16 0 01-1.66-.6c-2.9-1.25-4.8-4.16-4.94-4.35-.14-.19-1.18-1.57-1.18-3s.75-2.12 1.01-2.41c.27-.29.58-.36.77-.36l.55.01c.18.01.41-.06.64.5.24.56.8 1.94.87 2.08.07.14.12.31.02.5-.09.19-.14.3-.28.47l-.43.5c-.14.14-.28.3-.12.58.16.29.72 1.18 1.54 1.92 1.06.94 1.95 1.24 2.23 1.38.28.14.44.12.6-.07.17-.19.69-.8.87-1.08.19-.28.37-.23.62-.14.26.1 1.62.77 1.9.91.28.14.46.21.53.32.07.12.07.68-.16 1.33z"/></svg>
+</button>
+
+<!-- ================= LIGHTBOX ================= -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Gallery image viewer">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+  <div class="lightbox-inner">
+    <div class="lightbox-frame" id="lightboxFrame">
+      <!-- image or placeholder injected by JS -->
+    </div>
+    <p class="lightbox-caption" id="lightboxCaption"></p>
+  </div>
+</div>
+
+<!-- ================= CONFIRMATION MODAL ================= -->
+<div class="modal-overlay" id="confirmModal" role="dialog" aria-modal="true" aria-label="Confirm appointment request">
+  <div class="modal">
+    <h3>Review Your Request</h3>
+    <p class="modal-sub">Please confirm your details before we open WhatsApp.</p>
+    <div class="modal-summary" id="modalSummary"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="modalEdit">Edit Details</button>
+      <button class="btn btn-gold" id="modalSend">Send on WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CONFIGURATION — BUSINESS INFORMATION
+   ▼▼▼  REPLACE THE VALUES BELOW WITH THE REAL BUSINESS INFO  ▼▼▼
+   This is the ONLY section Josh needs to edit to go live.
+============================================================ */
+const CONFIG = {
+  BUSINESS_NAME: "Magic Mirror",
+  // WhatsApp number in international format, digits only (no +, no spaces).
+  // Kenya example: "254712345678"  ← INSERT THE REAL WHATSAPP NUMBER HERE
+  WHATSAPP_NUMBER: "254720557276",
+  // Display phone number (as shown on the site) ← INSERT REAL NUMBER
+  PHONE_NUMBER: "+254 720 557 276",
+  // ← INSERT REAL EMAIL
+  EMAIL: "hello@magicmirror.co.ke",
+  // ← INSERT REAL LOCATION (estate / building / town)
+  LOCATION: "Nairobi, Kenya",
+  // ← INSERT REAL OPENING HOURS
+  OPENING_HOURS: "Mon–Sat: 8:00 AM – 7:00 PM"
+};
+/* ▲▲▲  END OF CONFIGURATION  ▲▲▲ */
+
+/* ------------------------------------------------------------
+   SERVICES DATA — easy to expand.
+   Add a new object to either array and it appears on the site,
+   in the booking dropdown, and on WhatsApp automatically.
+----------------------------------------------------------- */
+const SERVICES = {
+  dreadlocks: [
+    { name: "Retouch",        desc: "Fresh, neat retouching to keep your locs looking clean and sharp.", price: "Price on request" },
+    { name: "Retie",          desc: "Careful re-tying of new growth for tidy, healthy dreadlocks.",        price: "Price on request" },
+    { name: "Styling",        desc: "Creative styles — buns, ponytails, patterns and event-ready looks.",  price: "Price on request" },
+    { name: "Maintenance",    desc: "Full care session: wash, treat and maintain the health of your locs.",price: "Price on request" }
+  ],
+  beauty: [
+    { name: "Nails",              desc: "Manicure, pedicure and nail art finished to a professional standard.", price: "Price on request" },
+    { name: "Hair",               desc: "Cuts, treatments and styling tailored to your look and lifestyle.",     price: "Price on request" },
+    { name: "Beauty Treatments",  desc: "Facials, skin care and treatments that leave you glowing.",             price: "Price on request" },
+    { name: "Other Beauty Services", desc: "Have something specific in mind? Message us and we’ll sort you out.", price: "Price on request" }
+  ]
+};
+
+/* ------------------------------------------------------------
+   RECRUITMENT DATA — DEMO/EXAMPLE ROLES ONLY.
+   These are NOT current vacancies; they demonstrate how the
+   recruitment feature works. Replace with real openings later.
+----------------------------------------------------------- */
+const JOBS = [
+  { title: "Hairstylist", note: "demo" },
+  { title: "Dreadlocks Specialist", note: "demo" },
+  { title: "Nail Technician", note: "demo" },
+  { title: "Beauty Professional", note: "demo" }
+];
+
+/* ------------------------------------------------------------
+   GALLERY DATA — placeholders until real photos are added.
+   To use a real photo: set img: "images/photo1.jpg" and the
+   placeholder is replaced automatically.
+----------------------------------------------------------- */
+const GALLERY = [
+  { label: "Business Image",    sub: "Salon / brand photo",   img: null },
+  { label: "Hair & Dreadlocks", sub: "Styling work",          img: null },
+  { label: "Beauty Services",   sub: "Nails & treatments",    img: null },
+  { label: "Client Experience", sub: "Happy clients",         img: null },
+  { label: "Behind the Scenes", sub: "The craft in action",   img: null }
+];
+
+/* ============================================================
+   HELPERS
+=========================================================== */
+const $  = (sel, ctx = document) => ctx.querySelector(sel);
+const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+
+/** Build a WhatsApp click-to-chat URL. */
+function waURL(message) {
+  return `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+/** Open WhatsApp in a new tab. */
+function openWhatsApp(message) {
+  window.open(waURL(message), "_blank", "noopener");
+}
+
+/* ============================================================
+   1. MOBILE NAVIGATION
+=========================================================== */
+const menuToggle = $("#menuToggle");
+const mobileNav  = $("#mobileNav");
+
+menuToggle.addEventListener("click", () => {
+  const open = mobileNav.classList.toggle("open");
+  menuToggle.classList.toggle("open", open);
+  menuToggle.setAttribute("aria-expanded", open);
+  menuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+});
+// Close menu when a link is tapped
+$$("#mobileNav a").forEach(a => a.addEventListener("click", () => {
+  mobileNav.classList.remove("open");
+  menuToggle.classList.remove("open");
+  menuToggle.setAttribute("aria-expanded", "false");
+}));
+// Close on Escape
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    mobileNav.classList.remove("open");
+    menuToggle.classList.remove("open");
+    closeLightbox();
+    closeModal();
+  }
+});
+
+/* ============================================================
+   2. ACTIVE NAV LINK ON SCROLL
+=========================================================== */
+const navLinks = $$(".nav-links a[href^='#']").filter(a => !a.classList.contains("btn"));
+const sections = navLinks.map(a => $(a.getAttribute("href"))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id));
+    }
+  });
+}, { rootMargin: "-40% 0px -55% 0px" });
+sections.forEach(s => spy.observe(s));
+
+/* ============================================================
+   3. REVEAL ON SCROLL
+=========================================================== */
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add("visible"); revealObserver.unobserve(en.target); }
+  });
+}, { threshold: 0.12 });
+$$(".reveal").forEach(el => revealObserver.observe(el));
+
+/* ============================================================
+   4. RENDER SERVICES
+=========================================================== */
+function serviceCard(svc, category) {
+  const card = document.createElement("article");
+  card.className = "service-card reveal";
+  card.innerHTML = `
+    <h4>${svc.name}</h4>
+    <p>${svc.desc}</p>
+    <span class="service-price">${svc.price}</span>
+    <button class="btn btn-outline" data-book="${svc.name}" data-category="${category}">Book</button>`;
+  return card;
+}
+SERVICES.dreadlocks.forEach(s => $("#dreadlocksGrid").appendChild(serviceCard(s, "Dreadlocks")));
+SERVICES.beauty.forEach(s => $("#beautyGrid").appendChild(serviceCard(s, "Beauty")));
+
+// Populate the booking dropdown, grouped by category
+const serviceSelect = $("#bkService");
+[{ label: "Dreadlocks", items: SERVICES.dreadlocks }, { label: "Beauty", items: SERVICES.beauty }]
+  .forEach(group => {
+    const og = document.createElement("optgroup");
+    og.label = group.label;
+    group.items.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s.name;
+      opt.textContent = s.name;
+      og.appendChild(opt);
+    });
+    serviceSelect.appendChild(og);
+  });
+
+/* ============================================================
+   5. "BOOK" BUTTONS → preselect service & scroll to form
+=========================================================== */
+document.addEventListener("click", e => {
+  const btn = e.target.closest("[data-book]");
+  if (!btn) return;
+  serviceSelect.value = btn.dataset.book;
+  clearError("service");
+  $("#appointments").scrollIntoView({ behavior: "smooth" });
+  // subtle highlight so the user sees the pre-selection
+  serviceSelect.style.boxShadow = "0 0 0 3px rgba(201,162,75,.35)";
+  setTimeout(() => serviceSelect.style.boxShadow = "", 1400);
+});
+
+/* ============================================================
+   6. APPOINTMENT FORM — validation, review, WhatsApp
+=========================================================== */
+const form     = $("#bookingForm");
+const feedback = $("#formFeedback");
+const modal    = $("#confirmModal");
+let pendingRequest = null;
+
+function showFeedback(msg, ok) {
+  feedback.textContent = msg;
+  feedback.className = "form-feedback show " + (ok ? "ok" : "bad");
+}
+function hideFeedback() { feedback.className = "form-feedback"; }
+
+function setError(field, on) {
+  const wrap = $(`.field[data-field="${field}"]`);
+  if (wrap) wrap.classList.toggle("error", on);
+}
+function clearError(field) { setError(field, false); }
+
+// live clearing of errors as the user types
+$$("#bookingForm input, #bookingForm select, #bookingForm textarea").forEach(el => {
+  el.addEventListener("input", () => {
+    const f = el.closest(".field");
+    if (f) f.classList.remove("error");
+    hideFeedback();
+  });
+});
+
+// date input: no past dates
+const dateInput = $("#bkDate");
+dateInput.min = new Date().toISOString().split("T")[0];
+
+function validate() {
+  let firstBad = null;
+  const name    = $("#bkName").value.trim();
+  const phone   = $("#bkPhone").value.replace(/[\s\-()+.]/g, "");
+  const service = serviceSelect.value;
+  const date    = dateInput.value;
+  const time    = $("#bkTime").value;
+
+  const checks = [
+    ["name",    name.length >= 2],
+    ["phone",   /^\d{9,15}$/.test(phone)],
+    ["service", service !== ""],
+    ["date",    date !== "" && date >= dateInput.min],
+    ["time",    time !== ""]
+  ];
+  checks.forEach(([field, ok]) => {
+    setError(field, !ok);
+    if (!ok && !firstBad) firstBad = field;
+  });
+  return { ok: !firstBad, firstBad };
+}
+
+function formatDateHuman(iso) {
+  // "2026-09-28" → "28 September 2026"
+  const d = new Date(iso + "T00:00:00");
+  return d.toLocaleDateString("en-KE", { day: "numeric", month: "long", year: "numeric" });
+}
+function formatTimeHuman(t) {
+  // "14:00" → "2:00 PM"
+  const [h, m] = t.split(":").map(Number);
+  const ampm = h >= 12 ? "PM" : "AM";
+  const hr = h % 12 || 12;
+  return `${hr}:${String(m).padStart(2, "0")} ${ampm}`;
+}
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const { ok, firstBad } = validate();
+  if (!ok) {
+    showFeedback("Please correct the highlighted fields and try again.", false);
+    const wrap = $(`.field[data-field="${firstBad}"]`);
+    if (wrap) wrap.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+
+  const data = {
+    name:    $("#bkName").value.trim(),
+    phone:   $("#bkPhone").value.trim(),
+    service: serviceSelect.value,
+    date:    dateInput.value,
+    time:    $("#bkTime").value,
+    message: $("#bkMessage").value.trim()
+  };
+
+  // Build the professional WhatsApp message
+  let msg = `Hello ${CONFIG.BUSINESS_NAME}, I would like to request an appointment.\n\n`;
+  msg += `Name: ${data.name}\n`;
+  msg += `Phone: ${data.phone}\n`;
+  msg += `Service: ${data.service}\n`;
+  msg += `Preferred Date: ${formatDateHuman(data.date)}\n`;
+  msg += `Preferred Time: ${formatTimeHuman(data.time)}`;
+  if (data.message) msg += `\nMessage: ${data.message}`;
+
+  pendingRequest = msg;
+
+  // Show review modal before redirecting
+  $("#modalSummary").innerHTML = `
+    <div><span>Name</span><strong>${escapeHTML(data.name)}</strong></div>
+    <div><span>Service</span><strong>${escapeHTML(data.service)}</strong></div>
+    <div><span>Date</span><strong>${formatDateHuman(data.date)}</strong></div>
+    <div><span>Time</span><strong>${formatTimeHuman(data.time)}</strong></div>
+    ${data.message ? `<div><span>Message</span><strong>${escapeHTML(data.message)}</strong></div>` : ""}`;
+  modal.classList.add("open");
+});
+
+/** Minimal HTML escaping for user content shown in the modal. */
+function escapeHTML(str) {
+  return str.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function closeModal() { modal.classList.remove("open"); }
+$("#modalEdit").addEventListener("click", closeModal);
+modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+$("#modalSend").addEventListener("click", () => {
+  if (!pendingRequest) return;
+  openWhatsApp(pendingRequest);
+  closeModal();
+  showFeedback("Opening WhatsApp… your request is pre-filled and ready to send. We’ll confirm your slot shortly.", true);
+});
+
+/* ============================================================
+   7. RECRUITMENT — render demo roles + WhatsApp apply
+=========================================================== */
+const jobsGrid = $("#jobsGrid");
+JOBS.forEach(job => {
+  const card = document.createElement("article");
+  card.className = "job-card reveal";
+  card.innerHTML = `
+    <span class="demo-tag">Demo opportunity</span>
+    <h4>${job.title}</h4>
+    <p>An example role showing how future openings will appear on this website. This position is <strong>not currently available</strong>.</p>
+    <button class="btn btn-outline" data-apply="${job.title}">Enquire</button>`;
+  jobsGrid.appendChild(card);
+  revealObserver.observe(card);
+});
+
+document.addEventListener("click", e => {
+  const btn = e.target.closest("[data-apply]");
+  if (!btn) return;
+  const msg = `Hello ${CONFIG.BUSINESS_NAME}, I am interested in joining your team.\n\n` +
+              `Role of interest (demo listing): ${btn.dataset.apply}\n` +
+              `Please let me know about any future opportunities.`;
+  openWhatsApp(msg);
+});
+
+$("#recruitWhatsApp").addEventListener("click", () => {
+  const msg = `Hello ${CONFIG.BUSINESS_NAME}, I am interested in joining your team. Please share any current or upcoming opportunities.`;
+  openWhatsApp(msg);
+});
+
+/* ============================================================
+   8. GALLERY — render placeholders + lightbox
+=========================================================== */
+const galleryGrid = $("#galleryGrid");
+GALLERY.forEach((item, i) => {
+  const fig = document.createElement("figure");
+  fig.className = "gallery-item reveal";
+  fig.dataset.index = i;
+  fig.innerHTML = item.img
+    ? `<img src="${item.img}" alt="${item.label}" loading="lazy" />`
+    : `<div class="gallery-placeholder">
+         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="M21 15l-5-5L5 21"/></svg>
+         <span class="gp-label">${item.label}</span>
+         <span class="gp-sub">${item.sub}</span>
+       </div>
+       ${item.img ? "" : ""}`;
+  const cap = document.createElement("figcaption");
+  cap.className = "gallery-caption";
+  cap.textContent = item.label;
+  fig.appendChild(cap);
+  galleryGrid.appendChild(fig);
+  revealObserver.observe(fig);
+});
+
+const lightbox = $("#lightbox");
+function openLightbox(index) {
+  const item = GALLERY[index];
+  if (!item) return;
+  $("#lightboxFrame").innerHTML = item.img
+    ? `<img src="${item.img}" alt="${item.label}" />`
+    : `<div class="lightbox-placeholder">
+         <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="M21 15l-5-5L5 21"/></svg>
+         <span class="gp-label" style="font-family:var(--font-serif);font-size:1.4rem;color:var(--cream)">${item.label}</span>
+         <span class="gp-sub" style="font-size:.72rem;letter-spacing:.2em;text-transform:uppercase">Photo placeholder — real image to be added</span>
+       </div>`;
+  $("#lightboxCaption").textContent = item.label + " — " + item.sub;
+  lightbox.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeLightbox() {
+  lightbox.classList.remove("open");
+  document.body.style.overflow = "";
+}
+galleryGrid.addEventListener("click", e => {
+  const fig = e.target.closest(".gallery-item");
+  if (fig) openLightbox(Number(fig.dataset.index));
+});
+$("#lightboxClose").addEventListener("click", closeLightbox);
+lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
+
+/* ============================================================
+   9. WHATSAPP ENTRY POINTS
+=========================================================== */
+const genericMsg = `Hello ${CONFIG.BUSINESS_NAME}, I found your website and I’d like to make an enquiry.`;
+$("#waFloat").addEventListener("click", () => openWhatsApp(genericMsg));
+$("#heroWhatsApp").addEventListener("click", e => { e.preventDefault(); openWhatsApp(genericMsg); });
+$("#contactWhatsAppBtn").addEventListener("click", () => openWhatsApp(genericMsg));
+$("#contactWhatsApp").addEventListener("click", e => { e.preventDefault(); openWhatsApp(genericMsg); });
+$("#footerWhatsApp").addEventListener("click", e => { e.preventDefault(); openWhatsApp(genericMsg); });
+
+/* Wire placeholder contact details from CONFIG */
+$("#contactPhone").textContent    = CONFIG.PHONE_NUMBER;
+$("#contactPhone").href           = "tel:" + CONFIG.PHONE_NUMBER.replace(/\s/g, "");
+$("#contactEmail").textContent    = CONFIG.EMAIL;
+$("#contactEmail").href           = "mailto:" + CONFIG.EMAIL;
+$("#contactLocation").textContent = CONFIG.LOCATION;
+$("#contactHours").textContent    = CONFIG.OPENING_HOURS;
+$("#footerEmail").textContent     = CONFIG.EMAIL;
+$("#footerEmail").href            = "mailto:" + CONFIG.EMAIL;
+
+/* ============================================================
+   10. FOOTER — current year
+=========================================================== */
+$("#year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
